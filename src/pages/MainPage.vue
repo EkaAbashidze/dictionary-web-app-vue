@@ -11,10 +11,11 @@
         {{ word.word }}
       </h2>
 
-      <p>
-        {{ phoneticsText }}
-      </p>
-      <audio :src="phoneticsAudio" controls></audio>
+      <h2>{{ phoneticsText.text }}</h2>
+      <audio :src="phoneticsAudio.audio" controls></audio>
+      <div v-for="definition in definitions" :key="definition">
+        {{ definition }}
+      </div>
     </div>
   </div>
 </template>
@@ -31,24 +32,14 @@ export default {
     return {
       word: {},
       isLoading: true,
-      phoneticsText: "",
+      phonetics: null,
       phoneticsAudio: "",
+      phoneticsText: "",
+      definitions: [],
     };
   },
   mounted() {
     this.getData();
-  },
-  computed: {
-    phoneticsText() {
-      const phonetics = this.word?.phonetics;
-      const phoneticWithText = phonetics.find((item) => item.text);
-      return phoneticWithText ? phoneticWithText.text : "";
-    },
-    phoneticsAudio() {
-      const phonetics = this.word?.phonetics;
-      const phoneticWithAudio = phonetics.find((item) => item.audio);
-      return phoneticWithAudio ? phoneticWithAudio.audio : "";
-    },
   },
   methods: {
     async getData() {
@@ -58,11 +49,24 @@ export default {
           "https://api.dictionaryapi.dev/api/v2/entries/en/bear"
         );
         this.word = response.data[0];
+        this.getPhonetics(this.word?.phonetics);
         this.isLoading = false;
-        console.log(this.word);
+        this.getMeanings(this.word.meanings);
       } catch (error) {
         console.log(error);
       }
+    },
+    getPhonetics(phon) {
+      this.phonetics = phon;
+      this.phoneticsText = this.phonetics.find((item) => item.text);
+      this.phoneticsAudio = this.phonetics.find((item) => item.audio);
+    },
+    getMeanings(meanings) {
+      meanings.forEach((meaning) => {
+        meaning.definitions.forEach((definition) => {
+          this.definitions.push(definition.definition);
+        });
+      });
     },
   },
 };
