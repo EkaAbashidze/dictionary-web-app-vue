@@ -1,3 +1,83 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@font-face {
+  font-family: 'Inconsolata';
+  src: url('@/assets/fonts/inconsolata/static/Inconsolata-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inconsolata';
+  src: url('@/assets/fonts/inconsolata/static/Inconsolata-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'InconsolataVariable';
+  src: url('@/assets/fonts/inconsolata/Inconsolata-VariableFont_wdth,wght.ttg') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Inter */
+@font-face {
+  font-family: 'Inter';
+  src: url('@/assets/fonts/inter/static/Inter-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('@/assets/fonts/inter/static/Inter-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'InterVariable';
+  src: url('@/assets/fonts/inter/Inter-VariableFont_wdth,wght.ttg') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Lora */
+@font-face {
+  font-family: 'Lora';
+  src: url('@/assets/fonts/lora/static/Lora-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('@/assets/fonts/lora/static/Lora-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('@/assets/fonts/lora/static/Lora-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'LoraVariable';
+  src: url('@/assets/fonts/lora/Lora-VariableFont_wdth,wght.ttg') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'LoraItalicVariable';
+  src: url('@/assets/fonts/lora/Lora-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
