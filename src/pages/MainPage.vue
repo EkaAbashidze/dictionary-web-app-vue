@@ -25,6 +25,10 @@
       <div v-for="synonym in synonyms" :key="synonym">
         {{ synonym }}
       </div>
+      <h1>SOURCE</h1>
+      <div>
+        {{ url }}
+      </div>
     </div>
   </div>
 </template>
@@ -47,6 +51,7 @@ export default {
       nouns: [],
       verbs: [],
       synonyms: [],
+      url: "",
     };
   },
   mounted() {
@@ -64,6 +69,7 @@ export default {
         this.isLoading = false;
         this.getMeanings(this.word.meanings);
         this.getSynonyms(this.word.meanings);
+        this.getLink(this.word.sourceUrls[0]);
         console.log(this.word);
         console.log(this.word.meanings);
       } catch (error) {
@@ -96,7 +102,9 @@ export default {
           });
         }
       });
-      console.log("SYNONYMS: " + this.synonyms);
+    },
+    getLink(link) {
+      this.url = link;
     },
   },
 };
