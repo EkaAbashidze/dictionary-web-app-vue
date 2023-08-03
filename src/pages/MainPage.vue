@@ -1,16 +1,22 @@
 <template>
   <div class="p-8 w-screen">
     <the-header></the-header>
-    <div class="mt-8 flex justify-center">
+    <div class="mt-8 flex justify-center relative">
       <label for="search"></label>
       <input
         type="text"
         name="search"
-        class="bg-[#F4F4F4] w-[327px] h-[48px] rounded-xl outline-none px-6"
+        class="bg-[#F4F4F4] w-[327px] h-[48px] rounded-xl outline-none px-6 pr-14 font-lora font-bold text-base"
+        placeholder="Search"
         v-model="search"
       />
+      <img
+        class="absolute top-4 right-10"
+        src="../assets/images/icon-search.svg"
+        alt="search"
+      />
     </div>
-    <h2 v-if="isLoading">Search for the word</h2>
+
     <div v-if="error">
       <h1>
         {{ error.title }}
