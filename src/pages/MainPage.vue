@@ -1,8 +1,14 @@
 <template>
-  <div>
-    <div>
+  <div class="p-8 w-screen">
+    <the-header></the-header>
+    <div class="mt-8 flex justify-center">
       <label for="search"></label>
-      <input type="text" name="search" class="bg-[#F4F4F4]" v-model="search" />
+      <input
+        type="text"
+        name="search"
+        class="bg-[#F4F4F4] w-[327px] h-[48px] rounded-xl outline-none px-6"
+        v-model="search"
+      />
     </div>
     <h2 v-if="isLoading">Search for the word</h2>
     <div v-if="error">
@@ -49,8 +55,12 @@
 
 <script>
 import axios from "axios";
+import TheHeader from "../components/TheHeader.vue";
 
 export default {
+  components: {
+    TheHeader,
+  },
   data() {
     return {
       search: "",
@@ -67,6 +77,26 @@ export default {
       } else {
         this.clearData();
       }
+    },
+  },
+  methods: {
+    async getData(searchTerm) {
+      this.isLoading = true;
+      try {
+        const response = await axios.get(
+          "https://api.dictionaryapi.dev/api/v2/entries/en/" + searchTerm
+        );
+        this.word = response.data[0];
+        this.isLoading = false;
+        this.error = {};
+      } catch (error) {
+        this.error = JSON.parse(error.request.responseText);
+      }
+    },
+    clearData() {
+      this.word = {};
+      this.isLoading = true;
+      this.error = {};
     },
   },
   computed: {
@@ -127,26 +157,6 @@ export default {
     url() {
       let url = this.word.sourceUrls[0];
       return url;
-    },
-  },
-  methods: {
-    async getData(searchTerm) {
-      this.isLoading = true;
-      try {
-        const response = await axios.get(
-          "https://api.dictionaryapi.dev/api/v2/entries/en/" + searchTerm
-        );
-        this.word = response.data[0];
-        this.isLoading = false;
-        this.error = {};
-      } catch (error) {
-        this.error = JSON.parse(error.request.responseText);
-      }
-    },
-    clearData() {
-      this.word = {};
-      this.isLoading = true;
-      this.error = {};
     },
   },
 };
