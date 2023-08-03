@@ -59,8 +59,8 @@ export default {
       phonetics: null,
       phoneticsAudio: "",
       phoneticsText: "",
-      nouns: [],
-      verbs: [],
+      // nouns: [],
+      // verbs: [],
       synonyms: [],
       example: "",
       url: "",
@@ -77,6 +77,30 @@ export default {
       }
     },
   },
+  computed: {
+    nouns() {
+      let nouns = [];
+      this.word.meanings.forEach((meaning) => {
+        if (meaning.partOfSpeech === "noun") {
+          meaning.definitions.forEach((definition) => {
+            nouns.push(definition.definition);
+          });
+        }
+      });
+      return nouns;
+    },
+    verbs() {
+      let verbs = [];
+      this.word.meanings.forEach((meaning) => {
+        if (meaning.partOfSpeech === "verb") {
+          meaning.definitions.forEach((definition) => {
+            verbs.push(definition.definition);
+          });
+        }
+      });
+      return verbs;
+    },
+  },
   methods: {
     async getData(searchTerm) {
       this.isLoading = true;
@@ -88,7 +112,6 @@ export default {
         this.isLoading = false;
         this.error = {};
         this.getPhonetics(this.word?.phonetics);
-        this.getMeanings(this.word.meanings);
         this.getSynonyms(this.word.meanings);
         this.getExample(this.word.meanings);
         this.getLink(this.word.sourceUrls[0]);
@@ -102,19 +125,7 @@ export default {
       this.phoneticsText = this.phonetics.find((item) => item.text);
       this.phoneticsAudio = this.phonetics.find((item) => item.audio);
     },
-    getMeanings(meanings) {
-      meanings.forEach((meaning) => {
-        if (meaning.partOfSpeech === "noun") {
-          meaning.definitions.forEach((definition) => {
-            this.nouns.push(definition.definition);
-          });
-        } else if (meaning.partOfSpeech === "verb") {
-          meaning.definitions.forEach((definition) => {
-            this.verbs.push(definition.definition);
-          });
-        }
-      });
-    },
+
     getExample(meanings) {
       meanings.forEach((meaning) => {
         meaning.definitions.forEach((definition) => {
