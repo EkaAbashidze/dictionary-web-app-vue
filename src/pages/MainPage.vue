@@ -13,8 +13,17 @@
 
       <h2>{{ phoneticsText.text }}</h2>
       <audio :src="phoneticsAudio.audio" controls></audio>
-      <div v-for="definition in definitions" :key="definition">
-        {{ definition }}
+      <h1>NOUNS</h1>
+      <div v-for="noun in nouns" :key="noun">
+        {{ noun }}
+      </div>
+      <h1>VERBS</h1>
+      <div v-for="verb in verbs" :key="verb">
+        {{ verb }}
+      </div>
+      <h1>SYNONYMS</h1>
+      <div v-for="synonym in synonyms" :key="synonym">
+        {{ synonym }}
       </div>
     </div>
   </div>
@@ -35,7 +44,9 @@ export default {
       phonetics: null,
       phoneticsAudio: "",
       phoneticsText: "",
-      definitions: [],
+      nouns: [],
+      verbs: [],
+      synonyms: [],
     };
   },
   mounted() {
@@ -46,12 +57,15 @@ export default {
       this.isLoading = true;
       try {
         const response = await axios.get(
-          "https://api.dictionaryapi.dev/api/v2/entries/en/bear"
+          "https://api.dictionaryapi.dev/api/v2/entries/en/keyboard"
         );
         this.word = response.data[0];
         this.getPhonetics(this.word?.phonetics);
         this.isLoading = false;
         this.getMeanings(this.word.meanings);
+        this.getSynonyms(this.word.meanings);
+        console.log(this.word);
+        console.log(this.word.meanings);
       } catch (error) {
         console.log(error);
       }
@@ -63,10 +77,26 @@ export default {
     },
     getMeanings(meanings) {
       meanings.forEach((meaning) => {
-        meaning.definitions.forEach((definition) => {
-          this.definitions.push(definition.definition);
-        });
+        if (meaning.partOfSpeech === "noun") {
+          meaning.definitions.forEach((definition) => {
+            this.nouns.push(definition.definition);
+          });
+        } else if (meaning.partOfSpeech === "verb") {
+          meaning.definitions.forEach((definition) => {
+            this.verbs.push(definition.definition);
+          });
+        }
       });
+    },
+    getSynonyms(meanings) {
+      meanings.forEach((meaning) => {
+        if (meaning.synonyms && meaning.synonyms.length > 0) {
+          meaning.synonyms.forEach((synonym) => {
+            this.synonyms.push(synonym);
+          });
+        }
+      });
+      console.log("SYNONYMS: " + this.synonyms);
     },
   },
 };
