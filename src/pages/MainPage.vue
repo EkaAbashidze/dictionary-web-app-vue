@@ -3,7 +3,7 @@
     <the-header></the-header>
     <div>
       <label for="search"></label>
-      <input type="text" name="search" class="bg-[#F4F4F4]" />
+      <input type="text" name="search" class="bg-[#F4F4F4]" v-model="search" />
     </div>
     <h2 v-if="isLoading">Data is loading...</h2>
     <div v-if="!isLoading">
@@ -47,6 +47,7 @@ export default {
   },
   data() {
     return {
+      search: "",
       word: {},
       isLoading: true,
       phonetics: null,
@@ -59,25 +60,29 @@ export default {
       url: "",
     };
   },
-  mounted() {
-    this.getData();
+  watch: {
+    search(search) {
+      if (search !== "") {
+        this.getData(search);
+      } else {
+        this.clearData();
+      }
+    },
   },
   methods: {
-    async getData() {
+    async getData(searchTerm) {
       this.isLoading = true;
       try {
         const response = await axios.get(
-          "https://api.dictionaryapi.dev/api/v2/entries/en/keyboard"
+          "https://api.dictionaryapi.dev/api/v2/entries/en/" + searchTerm
         );
         this.word = response.data[0];
-        this.getPhonetics(this.word?.phonetics);
         this.isLoading = false;
+        this.getPhonetics(this.word?.phonetics);
         this.getMeanings(this.word.meanings);
         this.getSynonyms(this.word.meanings);
         this.getExample(this.word.meanings);
         this.getLink(this.word.sourceUrls[0]);
-        console.log(this.word);
-        console.log(this.word.meanings);
       } catch (error) {
         console.log(error);
       }
@@ -108,7 +113,6 @@ export default {
           }
         });
       });
-      console.log(this.example);
     },
     getSynonyms(meanings) {
       meanings.forEach((meaning) => {
@@ -121,6 +125,18 @@ export default {
     },
     getLink(link) {
       this.url = link;
+    },
+    clearData() {
+      this.word = {};
+      this.isLoading = true;
+      this.phonetics = null;
+      this.phoneticsAudio = "";
+      this.phoneticsText = "";
+      this.nouns = [];
+      this.verbs = [];
+      this.synonyms = [];
+      this.example = "";
+      this.url = "";
     },
   },
 };
