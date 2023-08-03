@@ -5,7 +5,7 @@
       <label for="search"></label>
       <input type="text" name="search" class="bg-[#F4F4F4]" v-model="search" />
     </div>
-    <h2 v-if="isLoading">Data is loading...</h2>
+    <h2 v-if="isLoading">Search for the word</h2>
     <div v-if="!isLoading">
       <h2>
         {{ word.word }}
@@ -63,6 +63,7 @@ export default {
   watch: {
     search(search) {
       if (search !== "") {
+        this.clearData();
         this.getData(search);
       } else {
         this.clearData();
