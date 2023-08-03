@@ -56,8 +56,6 @@ export default {
       search: "",
       word: {},
       isLoading: true,
-
-      synonyms: [],
       example: "",
       url: "",
       error: {},
@@ -106,6 +104,17 @@ export default {
       const phoneticsText = phonetics.find((item) => item.text);
       return phoneticsText;
     },
+    synonyms() {
+      let synonyms = [];
+      this.word.meanings.forEach((meaning) => {
+        if (meaning.synonyms && meaning.synonyms.length > 0) {
+          meaning.synonyms.forEach((synonym) => {
+            synonyms.push(synonym);
+          });
+        }
+      });
+      return synonyms;
+    },
   },
   methods: {
     async getData(searchTerm) {
@@ -117,8 +126,6 @@ export default {
         this.word = response.data[0];
         this.isLoading = false;
         this.error = {};
-
-        this.getSynonyms(this.word.meanings);
         this.getExample(this.word.meanings);
         this.getLink(this.word.sourceUrls[0]);
       } catch (error) {
@@ -126,7 +133,6 @@ export default {
         console.log(this.error);
       }
     },
-
     getExample(meanings) {
       meanings.forEach((meaning) => {
         meaning.definitions.forEach((definition) => {
@@ -134,15 +140,6 @@ export default {
             this.example = definition.example;
           }
         });
-      });
-    },
-    getSynonyms(meanings) {
-      meanings.forEach((meaning) => {
-        if (meaning.synonyms && meaning.synonyms.length > 0) {
-          meaning.synonyms.forEach((synonym) => {
-            this.synonyms.push(synonym);
-          });
-        }
       });
     },
     getLink(link) {
