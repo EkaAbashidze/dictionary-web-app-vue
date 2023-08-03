@@ -56,11 +56,7 @@ export default {
       search: "",
       word: {},
       isLoading: true,
-      phonetics: null,
-      phoneticsAudio: "",
-      phoneticsText: "",
-      // nouns: [],
-      // verbs: [],
+
       synonyms: [],
       example: "",
       url: "",
@@ -100,6 +96,16 @@ export default {
       });
       return verbs;
     },
+    phoneticsAudio() {
+      const phonetics = this.word.phonetics;
+      const phoneticsAudio = phonetics.find((item) => item.audio);
+      return phoneticsAudio;
+    },
+    phoneticsText() {
+      const phonetics = this.word.phonetics;
+      const phoneticsText = phonetics.find((item) => item.text);
+      return phoneticsText;
+    },
   },
   methods: {
     async getData(searchTerm) {
@@ -111,7 +117,7 @@ export default {
         this.word = response.data[0];
         this.isLoading = false;
         this.error = {};
-        this.getPhonetics(this.word?.phonetics);
+
         this.getSynonyms(this.word.meanings);
         this.getExample(this.word.meanings);
         this.getLink(this.word.sourceUrls[0]);
@@ -119,11 +125,6 @@ export default {
         this.error = JSON.parse(error.request.responseText);
         console.log(this.error);
       }
-    },
-    getPhonetics(phon) {
-      this.phonetics = phon;
-      this.phoneticsText = this.phonetics.find((item) => item.text);
-      this.phoneticsAudio = this.phonetics.find((item) => item.audio);
     },
 
     getExample(meanings) {
