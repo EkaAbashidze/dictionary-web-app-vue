@@ -56,7 +56,6 @@ export default {
       search: "",
       word: {},
       isLoading: true,
-      example: "",
       url: "",
       error: {},
     };
@@ -115,6 +114,17 @@ export default {
       });
       return synonyms;
     },
+    example() {
+      let example = "";
+      this.word.meanings.forEach((meaning) => {
+        meaning.definitions.forEach((definition) => {
+          if (definition.example && definition.example !== "") {
+            example = definition.example;
+          }
+        });
+      });
+      return example;
+    },
   },
   methods: {
     async getData(searchTerm) {
@@ -126,21 +136,11 @@ export default {
         this.word = response.data[0];
         this.isLoading = false;
         this.error = {};
-        this.getExample(this.word.meanings);
         this.getLink(this.word.sourceUrls[0]);
       } catch (error) {
         this.error = JSON.parse(error.request.responseText);
         console.log(this.error);
       }
-    },
-    getExample(meanings) {
-      meanings.forEach((meaning) => {
-        meaning.definitions.forEach((definition) => {
-          if (definition.example && definition.example !== "") {
-            this.example = definition.example;
-          }
-        });
-      });
     },
     getLink(link) {
       this.url = link;
