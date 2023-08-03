@@ -56,7 +56,6 @@ export default {
       search: "",
       word: {},
       isLoading: true,
-      url: "",
       error: {},
     };
   },
@@ -125,6 +124,10 @@ export default {
       });
       return example;
     },
+    url() {
+      let url = this.word.sourceUrls[0];
+      return url;
+    },
   },
   methods: {
     async getData(searchTerm) {
@@ -136,26 +139,14 @@ export default {
         this.word = response.data[0];
         this.isLoading = false;
         this.error = {};
-        this.getLink(this.word.sourceUrls[0]);
       } catch (error) {
         this.error = JSON.parse(error.request.responseText);
-        console.log(this.error);
       }
-    },
-    getLink(link) {
-      this.url = link;
     },
     clearData() {
       this.word = {};
       this.isLoading = true;
-      this.phonetics = null;
-      this.phoneticsAudio = "";
-      this.phoneticsText = "";
-      this.nouns = [];
-      this.verbs = [];
-      this.synonyms = [];
-      this.example = "";
-      this.url = "";
+      this.error = {};
     },
   },
 };
