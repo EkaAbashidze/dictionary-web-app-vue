@@ -21,6 +21,10 @@
       <div v-for="verb in verbs" :key="verb">
         {{ verb }}
       </div>
+      <h1>EXAMPLE</h1>
+      <div>
+        {{ example }}
+      </div>
       <h1>SYNONYMS</h1>
       <div v-for="synonym in synonyms" :key="synonym">
         {{ synonym }}
@@ -51,6 +55,7 @@ export default {
       nouns: [],
       verbs: [],
       synonyms: [],
+      example: "",
       url: "",
     };
   },
@@ -69,6 +74,7 @@ export default {
         this.isLoading = false;
         this.getMeanings(this.word.meanings);
         this.getSynonyms(this.word.meanings);
+        this.getExample(this.word.meanings);
         this.getLink(this.word.sourceUrls[0]);
         console.log(this.word);
         console.log(this.word.meanings);
@@ -93,6 +99,16 @@ export default {
           });
         }
       });
+    },
+    getExample(meanings) {
+      meanings.forEach((meaning) => {
+        meaning.definitions.forEach((definition) => {
+          if (definition.example && definition.example !== "") {
+            this.example = definition.example;
+          }
+        });
+      });
+      console.log(this.example);
     },
     getSynonyms(meanings) {
       meanings.forEach((meaning) => {
