@@ -1,11 +1,21 @@
 <template>
   <div>
-    <the-header></the-header>
     <div>
       <label for="search"></label>
       <input type="text" name="search" class="bg-[#F4F4F4]" v-model="search" />
     </div>
     <h2 v-if="isLoading">Search for the word</h2>
+    <div v-if="error">
+      <h1>
+        {{ error.title }}
+      </h1>
+      <h1>
+        {{ error.message }}
+      </h1>
+      <h1>
+        {{ error.resolution }}
+      </h1>
+    </div>
     <div v-if="!isLoading">
       <h2>
         {{ word.word }}
@@ -39,12 +49,8 @@
 
 <script>
 import axios from "axios";
-import TheHeader from "../components/TheHeader.vue";
 
 export default {
-  components: {
-    TheHeader,
-  },
   data() {
     return {
       search: "",
@@ -58,6 +64,7 @@ export default {
       synonyms: [],
       example: "",
       url: "",
+      error: {},
     };
   },
   watch: {
@@ -79,13 +86,15 @@ export default {
         );
         this.word = response.data[0];
         this.isLoading = false;
+        this.error = {};
         this.getPhonetics(this.word?.phonetics);
         this.getMeanings(this.word.meanings);
         this.getSynonyms(this.word.meanings);
         this.getExample(this.word.meanings);
         this.getLink(this.word.sourceUrls[0]);
       } catch (error) {
-        console.log(error);
+        this.error = JSON.parse(error.request.responseText);
+        console.log(this.error);
       }
     },
     getPhonetics(phon) {
