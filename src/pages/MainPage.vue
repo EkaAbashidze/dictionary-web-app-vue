@@ -95,7 +95,7 @@ export default {
       this.isLoading = true;
       try {
         const response = await axios.get(
-          "https://api.dictionaryapi.dev/api/v2/entries/en/" + searchTerm
+          `https://api.dictionaryapi.dev/api/v2/entries/en/${searchTerm}`
         );
         this.word = response.data[0];
         this.isLoading = false;

@@ -1,11 +1,11 @@
 <template>
-  <div class="flex w-full justify-between items-center">
+  <div class="flex w-full justify-between items-center" :class="fontClass">
     <img src="../assets/images/icon-book.svg" alt="" />
 
     <div class="flex gap-4">
       <div class="flex gap-4 relative">
-        <select class="appearance-none outline-none">
-          <option value="Sans Serif">Sans Serif</option>
+        <select class="appearance-none outline-none" v-model="selectedFont">
+          <option value="Sans Serif" selected>Sans Serif</option>
           <option value="Serif">Serif</option>
           <option value="Mono">Mono</option>
         </select>
@@ -29,7 +29,19 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      selectedFont: "Sans Serif",
+    };
+  },
+  computed: {
+    fontClass() {
+      const fontClasses = {
+        "font-sans": this.selectedFont === "Sans Serif",
+        "font-serif": this.selectedFont === "Serif",
+        "font-mono": this.selectedFont === "Mono",
+      };
+      return fontClasses;
+    },
   },
 };
 </script>
