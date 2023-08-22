@@ -35,23 +35,28 @@
 
       <h2>{{ phoneticsText.text }}</h2>
       <audio :src="phoneticsAudio.audio" controls></audio>
-      <h1>NOUNS</h1>
+
+      <h1 class="font-lora-italic font-bold">noun</h1>
       <div v-for="noun in nouns" :key="noun">
         {{ noun }}
       </div>
-      <h1>VERBS</h1>
+
+      <h1 class="font-lora-italic font-bold">verb</h1>
       <div v-for="verb in verbs" :key="verb">
         {{ verb }}
       </div>
-      <h1>EXAMPLE</h1>
+
+      <h1 class="font-lora-italic font-bold">example</h1>
       <div>
         {{ example }}
       </div>
-      <h1>SYNONYMS</h1>
+
+      <h1 class="font-lora-italic font-bold">Synonyms</h1>
       <div v-for="synonym in synonyms" :key="synonym">
         {{ synonym }}
       </div>
-      <h1>SOURCE</h1>
+
+      <h1 class="font-lora-italic font-bold">Source</h1>
       <div>
         {{ url }}
       </div>

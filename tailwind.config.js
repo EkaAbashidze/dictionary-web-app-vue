@@ -9,7 +9,7 @@ export default {
         'inter': ['Inter', 'sans'],
         'inter-variable': ['InterVariable', 'sans'],
         'lora': ['Lora', 'serif'],
-        'lora-italic-variable': ['LoraItalicVariable', 'serif'],
+        'lora-italic': ['LoraItalicVariable', 'serif'],
       },
     },
   },
