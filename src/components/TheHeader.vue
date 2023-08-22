@@ -4,10 +4,10 @@
 
     <div class="flex gap-4">
       <div class="flex gap-4 relative">
-        <select class="appearance-none outline-none" v-model="selectedFont">
-          <option value="Sans Serif" selected>Sans Serif</option>
-          <option value="Serif">Serif</option>
-          <option value="Mono">Mono</option>
+        <select class="appearance-none outline-none" v-model="selected">
+          <option value="font-sans">Sans Serif</option>
+          <option value="font-serif">Serif</option>
+          <option value="font-mono">Mono</option>
         </select>
         <img src="../assets/images/icon-arrow-down.svg" alt="" />
       </div>
@@ -28,20 +28,28 @@
 
 <script>
 export default {
+  props: {
+    selectedFont: String,
+    fontClass: String,
+  },
   data() {
     return {
-      selectedFont: "Sans Serif",
+      selected: this.selectedFont,
     };
   },
-  computed: {
-    fontClass() {
-      const fontClasses = {
-        "font-sans": this.selectedFont === "Sans Serif",
-        "font-serif": this.selectedFont === "Serif",
-        "font-mono": this.selectedFont === "Mono",
-      };
-      return fontClasses;
+  mounted() {
+    console.log(this.selectedFont);
+  },
+  methods: {
+    emitFontChange(newFont) {
+      this.$emit("update-font", newFont);
     },
   },
+  watch: {
+    selected(newVal) {
+      this.emitFontChange(newVal);
+    },
+  },
+  computed: {},
 };
 </script>

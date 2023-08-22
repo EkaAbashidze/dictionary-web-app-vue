@@ -1,12 +1,17 @@
 <template>
   <div class="p-8 w-screen">
-    <the-header></the-header>
+    <the-header
+      :selectedFont="selectedFont"
+      @update-font="updateFont"
+      :fontClass="fontClass"
+    ></the-header>
     <div class="mt-8 flex justify-center relative">
       <label for="search"></label>
       <input
         type="text"
         name="search"
         class="bg-[#F4F4F4] w-[327px] h-[48px] rounded-xl outline-none px-6 pr-14 font-lora font-bold text-base"
+        :class="fontClass"
         placeholder="Search"
         v-model="search"
       />
@@ -78,6 +83,7 @@ export default {
       word: {},
       isLoading: true,
       error: {},
+      selectedFont: "font-sans",
     };
   },
   watch: {
@@ -108,6 +114,10 @@ export default {
       this.word = {};
       this.isLoading = true;
       this.error = {};
+    },
+    updateFont(newFont) {
+      this.selectedFont = newFont;
+      console.log("this is new font!" + this.selectedFont);
     },
   },
   computed: {
@@ -168,6 +178,9 @@ export default {
     url() {
       let url = this.word.sourceUrls[0];
       return url;
+    },
+    fontClass() {
+      return this.selectedFont;
     },
   },
 };
